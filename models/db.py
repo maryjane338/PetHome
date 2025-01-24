@@ -49,3 +49,11 @@ class Worker(Base):
     phone_number = Column(Integer, nullable=False)
     login = Column(Integer, nullable=False)
     password = Column(String, nullable=False)
+
+
+class Event(Base):
+    __tablename__ = 'events'
+
+    id_event = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    event_name = Column(String, nullable=False)
+    event_date = Column(Integer, nullable=False)

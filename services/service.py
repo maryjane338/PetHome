@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models.db import Pet, Parent, Shelter, Worker
+from models.db import Pet, Parent, Shelter, Worker, Event
 
 
 class PetService:
@@ -62,7 +62,7 @@ class PetService:
         pets = []
         for b in query:
             pet = []
-            pet.append(b.id_pet)
+            pet.append(str(b.id_pet))
             pet.append(b.pet_name)
             pet.append(b.animal_species)
             pet.append(str(b.age))
@@ -125,7 +125,7 @@ class ParentService:
         parents = []
         for b in query:
             parent = []
-            parent.append(b.id_parent)
+            parent.append(str(b.id_parent))
             parent.append(b.name)
             parent.append(b.surname)
             parent.append(str(b.phone_number))
@@ -206,12 +206,9 @@ class ShelterService:
         shelters = []
         for o in query:
             shelter = []
-            shelter.append(str(o.id_order))
-            shelter.append(str(o.client_name))
-            shelter.append(str(o.book_name))
-            shelter.append(o.address)
-            shelter.append(str(o.payment))
-            shelter.append(str(o.delivery_date))
+            shelter.append(str(o.id_shelter))
+            shelter.append(str(o.parent_name))
+            shelter.append(str(o.pet_name))
             shelters.append(shelter)
         return shelters
 
@@ -236,3 +233,30 @@ class WorkerService:
     def get_all_payments(self):
         books = self.db.query(Book).all()
         return books
+
+
+class EventService:
+    def __init__(self, db: Session):
+        self.db = db
+
+    def add_event(self, event_name: str, event_date: int):
+        new_event = Event(
+            event_name=event_name,
+            event_date=event_date,
+        )
+        self.db.add(new_event)
+        self.db.commit()
+        self.db.refresh(new_event)
+        return new_event
+
+    def get_all_events(self):
+        query = self.db.query(Event).all()
+
+        events = []
+        for p in query:
+            event = []
+            event.append(str(p.id_event))
+            event.append(str(p.event_name))
+            event.append(str(p.event_date))
+            events.append(event)
+        return events

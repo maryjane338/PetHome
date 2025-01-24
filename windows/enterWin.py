@@ -16,8 +16,10 @@ class AuthorizationWin(QWidget):
 
         login = QLabel('Введите логин:(Вова)')
         self.login_line = QLineEdit()
+        self.login_line.setPlaceholderText('123')
         password = QLabel('Введите пароль:(123)')
         self.password_line = QLineEdit()
+        self.password_line.setPlaceholderText('123')
         self.enter_btn = QPushButton('Войти')
         self.enter_btn.clicked.connect(self.enter)
 

@@ -1,9 +1,10 @@
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import *
 
+from windows.EventsWin import EventsWin
 from windows.ParentsWin import ParentsWin
+from windows.ShelterWin import SheltersWin
 from windows.UnhomePetsWin import UnhomePetsWin
-
 
 
 class MainWin(QWidget):
@@ -27,6 +28,9 @@ class MainWin(QWidget):
         self.home_pets_btn = QPushButton('Домашние животные')
         self.home_pets_btn.clicked.connect(self.show_users_win)
 
+        self.events_btn = QPushButton('Мероприятия')
+        self.events_btn.clicked.connect(self.show_events_win)
+
         self.back_enter_btn = QPushButton('Вернуться ко входу')
         self.back_enter_btn.clicked.connect(self.back_to_enter)
 
@@ -35,6 +39,7 @@ class MainWin(QWidget):
         self.main_l.addWidget(self.all_pets_btn)
         self.main_l.addWidget(self.all_parents_btn)
         self.main_l.addWidget(self.home_pets_btn)
+        self.main_l.addWidget(self.events_btn)
         self.main_l.addStretch()
         self.main_l.addWidget(self.back_enter_btn)
         self.setLayout(self.main_l)
@@ -54,9 +59,14 @@ class MainWin(QWidget):
         self.win2 = 1
 
     def show_users_win(self):
-        self.users_win = UsersWin()
+        self.users_win = SheltersWin()
         self.users_win.show()
         self.win3 = 1
+
+    def show_events_win(self):
+        self.events_win = EventsWin()
+        self.events_win.show()
+        self.win4 = 1
 
     def back_to_enter(self):
         if self.win1 == 1 and self.win2 == 1 and self.win3 == 1:

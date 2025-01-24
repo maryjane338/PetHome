@@ -15,7 +15,7 @@ class UnhomePetsWin(QWidget):
 
     def initUI(self):
         self.setWindowTitle('Заказы')
-        self.setGeometry(50, 300, 750, 400)
+        self.setGeometry(50, 100, 550, 400)
         self.setFixedSize(self.width(), self.height())
         self.setWindowIcon(QIcon('logo_pictures/window_icon.png'))
 
@@ -31,8 +31,7 @@ class UnhomePetsWin(QWidget):
 
         self.view = QTableView()
         self.model = QStandardItemModel()
-        self.model.setHorizontalHeaderLabels(['id_order', 'user_name', 'Книга', 'Адрес доставки', 'Способ оплаты',
-                                              'Дата доставки'])
+        self.model.setHorizontalHeaderLabels(['id_pet', 'pet_name', 'animal_species', 'age', 'weight'])
         self.view.setModel(self.model)
 
         self.load_orders()

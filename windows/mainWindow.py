@@ -1,10 +1,9 @@
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import *
-
-from windows.EventsWin import EventsWin
-from windows.ParentsWin import ParentsWin
-from windows.ShelterWin import SheltersWin
-from windows.UnhomePetsWin import UnhomePetsWin
+from windows.events_windows.EventsWin import EventsWin
+from windows.parents_windows.ParentsWin import ParentsWin
+from windows.pets_windows.UnhomePetsWin import UnhomePetsWin
+from windows.shelters_windows.ShelterWin import SheltersWin
 
 
 class MainWin(QWidget):
@@ -44,9 +43,10 @@ class MainWin(QWidget):
         self.main_l.addWidget(self.back_enter_btn)
         self.setLayout(self.main_l)
 
-        self.win1 = 0
-        self.win2 = 0
-        self.win3 = 0
+        self.books_win = None
+        self.adm_orders_win = None
+        self.users_win = None
+        self.events_win = None
 
     def show_books_win(self):
         self.books_win = ParentsWin()
@@ -69,34 +69,23 @@ class MainWin(QWidget):
         self.win4 = 1
 
     def back_to_enter(self):
-        if self.win1 == 1 and self.win2 == 1 and self.win3 == 1:
+        if self.books_win is not None:
             self.books_win.close()
+            self.books_win = None
+
+        if self.adm_orders_win is not None:
             self.adm_orders_win.close()
+            self.adm_orders_win = None
+
+        if self.users_win is not None:
             self.users_win.close()
-            self.hide()
-        elif self.win1 == 0 and self.win2 == 0 and self.win3 == 0:
-            self.hide()
-        elif self.win1 == 1 and self.win2 == 1:
-            self.books_win.close()
-            self.adm_orders_win.close()
-            self.hide()
-        elif self.win2 == 1 and self.win3 == 1:
-            self.adm_orders_win.close()
-            self.users_win.close()
-            self.hide()
-        elif self.win3 == 1 and self.win1 == 1:
-            self.users_win.close()
-            self.books_win.close()
-            self.hide()
-        elif self.win1 == 1:
-            self.books_win.close()
-            self.hide()
-        elif self.win2 == 1:
-            self.adm_orders_win.close()
-            self.hide()
-        elif self.win3 == 1:
-            self.users_win.close()
-            self.hide()
+            self.users_win = None
+
+        if self.events_win is not None:
+            self.events_win.close()
+            self.events_win = None
+
+        self.hide()
         self.enter_win.show()
 
     def closeEvent(self, event):

@@ -2,6 +2,7 @@ from PyQt6.QtGui import QIcon, QStandardItemModel, QStandardItem
 from PyQt6.QtWidgets import *
 from database import SessionLocal, init_db
 from services.service import ParentService
+from windows.parents_windows.ParentAddOrUpdateWin import ParentAddOrUpdateWin
 
 
 class ParentsWin(QWidget):
@@ -16,8 +17,11 @@ class ParentsWin(QWidget):
         self.setWindowIcon(QIcon('logo_pictures/window_icon.png'))
 
         self.update_btn = QPushButton('Изменить')
+        self.update_btn.clicked.connect(self.show_booksupdate_win)
         self.delete_btn = QPushButton('Удалить')
+        self.delete_btn.clicked.connect(self.delete_parent)
         self.add_btn = QPushButton('Добавить')
+        self.add_btn.clicked.connect(self.show_booksadd_win)
 
         init_db()
         db = SessionLocal()
@@ -53,24 +57,24 @@ class ParentsWin(QWidget):
             row = indexes[0].row()
             selected_book = {
                 'id': self.model.item(row, 0).text(),
-                'author': self.model.item(row, 1).text(),
-                'book_name': self.model.item(row, 2).text(),
-                'book_picture': self.model.item(row, 3).text(),
-                'price': self.model.item(row, 4).text(),
+                'name': self.model.item(row, 1).text(),
+                'surname': self.model.item(row, 2).text(),
+                'phone_number': self.model.item(row, 3).text(),
+                'address': self.model.item(row, 4).text(),
+                'passport_id': self.model.item(row, 5).text(),
             }
-            self.booksaddorupdate_win = BooksAddOrUpdateWin(self, selected_book)
+            self.booksaddorupdate_win = ParentAddOrUpdateWin(self, selected_book)
             self.booksaddorupdate_win.show()
         else:
             QMessageBox.information(self, 'Информация', 'Для выбора записи, нажмите на её номер в таблице',
             QMessageBox.StandardButton.Ok)
 
-
     def show_booksadd_win(self):
-        self.booksaddorupdate_win = BooksAddOrUpdateWin(self)
+        self.parent_add_or_update_win = ParentAddOrUpdateWin(self)
 
-        self.booksaddorupdate_win.show()
+        self.parent_add_or_update_win.show()
 
-    def delete_book(self):
+    def delete_parent(self):
         indexes = self.view.selectionModel().selectedRows()
         if indexes:
             row = indexes[0].row()
@@ -82,7 +86,7 @@ class ParentsWin(QWidget):
             dialog.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
             user_response = dialog.exec()
             if user_response == QMessageBox.StandardButton.Yes:
-                self.books_service.delete_book(self.model.item(row, 0).text())
+                self.parent_service.delete_parent(self.model.item(row, 0).text())
                 QMessageBox.information(self, "Инфо", 'Запись удалена')
                 self.model.clear()
                 self.model.setHorizontalHeaderLabels(['id', 'Автор', 'Название', 'Картинка', 'Цена'])
@@ -93,8 +97,8 @@ class ParentsWin(QWidget):
 
     def closeEvent(self, event):
         try:
-            if self.booksaddorupdate_win.isVisible():
-                self.booksaddorupdate_win.close()
+            if self.parent_add_or_update_win.isVisible():
+                self.parent_add_or_update_win.close()
         except AttributeError:
             pass
         finally:

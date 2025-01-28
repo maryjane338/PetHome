@@ -31,7 +31,7 @@ class UnhomePetsWin(QWidget):
 
         self.view = QTableView()
         self.model = QStandardItemModel()
-        self.model.setHorizontalHeaderLabels(['id_pet', 'pet_name', 'animal_species', 'age', 'weight'])
+        self.model.setHorizontalHeaderLabels(['id_pet', 'pet_name', 'animal_species', 'age', 'weight', 'home_status'])
         self.view.setModel(self.model)
 
         self.load_orders()
@@ -54,7 +54,7 @@ class UnhomePetsWin(QWidget):
         indexes = self.view.selectionModel().selectedRows()
         if indexes:
             row = indexes[0].row()
-            selected_order = {  # Собираем данные выбранной строки
+            selected_order = {
                 'id_order': self.model.item(row, 0).text(),
                 'user_name': self.model.item(row, 1).text(),
                 'book_name': self.model.item(row, 2).text(),
@@ -99,4 +99,3 @@ class UnhomePetsWin(QWidget):
             pass
         finally:
             event.accept()
-

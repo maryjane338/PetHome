@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -11,6 +11,7 @@ class Pet(Base):
     animal_species = Column(String, nullable=False)
     age = Column(Integer, nullable=False)
     weight = Column(Integer, nullable=False)
+    home_status = Column(Enum('Усыновлён', 'Не усыновлён', name='home_status_enum'), nullable=False)
 
     pet_ship = relationship('Shelter', back_populates='shelter_ship_pet')
 

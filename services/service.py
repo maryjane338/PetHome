@@ -6,13 +6,13 @@ class PetService:
     def __init__(self, db: Session):
         self.db = db
 
-    def add_pet(self,
-                 pet_name: str, animal_species: str, age: int, weight: int):
+    def add_pet(self, pet_name: str, animal_species: str, age: int, weight: int, home_status: str):
         new_pet = Pet(
             pet_name=pet_name,
             animal_species=animal_species,
             age=age,
-            weight=weight
+            weight=weight,
+            home_status=home_status
         )
         self.db.add(new_pet)
         self.db.commit()
@@ -67,6 +67,7 @@ class PetService:
             pet.append(b.animal_species)
             pet.append(str(b.age))
             pet.append(str(b.weight))
+            pet.append(b.home_status)
             pets.append(pet)
         return pets
 
@@ -145,6 +146,9 @@ class ShelterService:
             parent_name=parent_name,
             pet_name=pet_name,
         )
+
+        self.change_pet_status(pet_name)
+
         self.db.add(new_shelter)
         self.db.commit()
         self.db.refresh(new_shelter)
@@ -154,6 +158,13 @@ class ShelterService:
         shelter = self.db.query(Shelter).filter_by(id_shelter=id_shelter).first()
         self.db.delete(shelter)
         self.db.commit()
+
+    def change_pet_status(self, id_pet):
+        pet = self.db.query(Pet).filter_by(id_pet=id_pet).first()
+        if pet:
+            pet.home_status = 'Усыновлён'
+        self.db.commit()
+        self.db.refresh(pet)
 
     def update_shelter(self, id_shelter, parent_name, pet_name):
         shelter = self.db.query(Shelter).filter_by(id_shelter=id_shelter).first()

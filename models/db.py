@@ -25,7 +25,6 @@ class Parent(Base):
     phone_number = Column(Integer, nullable=False)
     address = Column(String, nullable=False)
     passport_id = Column(Integer, nullable=False)
-    parent_status = Column(String, nullable=False)
 
     parent_ship = relationship('Shelter', back_populates='shelter_ship_parent')
 

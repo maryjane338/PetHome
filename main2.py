@@ -8,9 +8,9 @@ def main():
 
     try:
         book_service = PetService(db)
-        book_service.add_pet(pet_name='Hog', animal_species='Pig', age=11, weight=56, home_status='Не усыновлён')
-        book_service.add_pet(pet_name='down', animal_species='Dog', age=3, weight=12, home_status='Не усыновлён')
-        book_service.add_pet(pet_name='Idiot', animal_species='Parrot', age=2, weight=6, home_status='Не усыновлён')
+        book_service.add_pet(pet_name='Hog', animal_species='Pig', age=11, weight=56)
+        book_service.add_pet(pet_name='down', animal_species='Dog', age=3, weight=12)
+        book_service.add_pet(pet_name='Idiot', animal_species='Parrot', age=2, weight=6)
 
         client_service = ParentService(db)
         client_service.add_parent(name='Lexa', surname='Tupoi', phone_number=6657, address='sdfsfs', passport_id=46456456)

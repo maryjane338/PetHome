@@ -15,6 +15,8 @@ class SheltersWin(QWidget):
         self.setFixedSize(self.width(), self.height())
         self.setWindowIcon(QIcon('logo_pictures/window_icon.png'))
 
+        self.add_btn = QPushButton('Добавить')
+        self.update_btn = QPushButton('Изменить')
 
         init_db()
         db = SessionLocal()

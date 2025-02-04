@@ -30,8 +30,7 @@ class ParentsWin(QWidget):
 
         self.view = QTableView()
         self.model = QStandardItemModel()
-        self.model.setHorizontalHeaderLabels(['id_parent', 'name', 'surname', 'phone_number', 'adress', 'passport_id',
-                                              'parent_status'])
+        self.model.setHorizontalHeaderLabels(['id_parent', 'name', 'surname', 'phone_number', 'adress', 'passport_id'])
         self.view.setModel(self.model)
 
         self.load_books()

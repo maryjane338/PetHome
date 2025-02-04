@@ -59,7 +59,7 @@ class ParentAddOrUpdateWin(QWidget):
 
     def save_book(self):
         db = SessionLocal()
-        book_service = ParentService(db)
+        parent_service = ParentService(db)
 
         try:
             int(self.phone_num_input.text())
@@ -70,19 +70,21 @@ class ParentAddOrUpdateWin(QWidget):
                                         'Вы не заполнили все поля или заполнили их некорректно.')
             else:
                 if self.id.text():
-                    book_service.update_book(
-                        id_book=self.id.text(),
-                        author=self.name_input.text(),
-                        book_name=self.surname_input.text(),
-                        book_picture=self.phone_num_input.text(),
-                        price=self.address_input.text()
+                    parent_service.update_parent(
+                        id_parent=self.id.text(),
+                        name=self.name_input.text(),
+                        surname=self.surname_input.text(),
+                        phone_number=self.phone_num_input.text(),
+                        address=self.address_input.text(),
+                        passport_id=self.passport_input.text()
                     )
                 else:
-                    book_service.add_book(
-                        author=self.author_name_input.text(),
-                        book_name=self.book_input.text(),
-                        book_picture=f'book_pictures/{self.picture_input.text()}',
-                        price=int(self.price_input.text())
+                    parent_service.add_parent(
+                        name=self.name_input.text(),
+                        surname=self.surname_input.text(),
+                        phone_number=int(self.phone_num_input.text()),
+                        address=self.address_input.text(),
+                        passport_id=int(self.passport_input.text())
                     )
                 QMessageBox.information(self, 'Информация', 'Книга успешно сохранена!')
                 self.close()

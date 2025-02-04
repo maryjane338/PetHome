@@ -2,7 +2,7 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import *
 from windows.events_windows.EventsWin import EventsWin
 from windows.parents_windows.ParentsWin import ParentsWin
-from windows.pets_windows.UnhomePetsWin import UnhomePetsWin
+from windows.pets_windows.UnhomePetsWin import PetsWin
 from windows.shelters_windows.ShelterWin import SheltersWin
 
 

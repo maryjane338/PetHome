@@ -6,13 +6,13 @@ class PetService:
     def __init__(self, db: Session):
         self.db = db
 
-    def add_pet(self, pet_name: str, animal_species: str, age: int, weight: int, home_status: str):
+    def add_pet(self, pet_name: str, animal_species: str, age: int, weight: int):
         new_pet = Pet(
             pet_name=pet_name,
             animal_species=animal_species,
             age=age,
             weight=weight,
-            home_status=home_status
+            home_status='Не усыновлён'
         )
         self.db.add(new_pet)
         self.db.commit()
@@ -22,10 +22,11 @@ class PetService:
     def update_pet(self, id_pet, pet_name, animal_species, age, weight):
         pet = self.db.query(Pet).filter_by(id_pet=id_pet).first()
         if pet:
-            pet.author = pet_name
-            pet.book_name = animal_species
-            pet.book_picture = age
-            pet.price = weight
+            pet.id_pet = id_pet
+            pet.pet_name = pet_name
+            pet.animal_species = animal_species
+            pet.age = age
+            pet.weight = weight
             self.db.commit()
             self.db.refresh(pet)
 
@@ -77,19 +78,30 @@ class ParentService:
         self.db = db
 
     def add_parent(self, name: str,
-                 surname: str, phone_number: int, address: str, passport_id: int, parent_status: str):
+                 surname: str, phone_number: int, address: str, passport_id: int):
         new_parent = Parent(
             name=name,
             surname=surname,
             phone_number=phone_number,
             address=address,
             passport_id=passport_id,
-            parent_status=parent_status,
         )
         self.db.add(new_parent)
         self.db.commit()
         self.db.refresh(new_parent)
         return new_parent
+
+    def update_parent(self, id_parent, name, surname, phone_number, address, passport_id):
+        parent = self.db.query(Parent).filter_by(id_parent=id_parent).first()
+        if parent:
+            parent.id_parent = id_parent
+            parent.name = name
+            parent.surname = surname
+            parent.phone_number = phone_number
+            parent.address = address
+            parent.passport_id = passport_id
+            self.db.commit()
+            self.db.refresh(parent)
 
     def delete_parent(self, id_parent):
         parent = self.db.query(Parent).filter_by(id_parent=id_parent).first()
@@ -132,7 +144,6 @@ class ParentService:
             parent.append(str(b.phone_number))
             parent.append(str(b.address))
             parent.append(str(b.passport_id))
-            parent.append(str(b.parent_status))
             parents.append(parent)
         return parents
 

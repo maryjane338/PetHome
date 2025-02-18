@@ -165,15 +165,18 @@ class ShelterService:
         self.db.refresh(new_shelter)
         return new_shelter
 
-    def delete_shelter(self, id_shelter):
+    def delete_shelter(self, id_shelter, pet_name):
         shelter = self.db.query(Shelter).filter_by(id_shelter=id_shelter).first()
+        self.change_pet_status(pet_name)
         self.db.delete(shelter)
         self.db.commit()
 
     def change_pet_status(self, id_pet):
         pet = self.db.query(Pet).filter_by(id_pet=id_pet).first()
-        if pet:
+        if pet.home_status == 'Не усыновлён':
             pet.home_status = 'Усыновлён'
+        else:
+            pet.home_status = 'Не усыновлён'
         self.db.commit()
         self.db.refresh(pet)
 
@@ -184,6 +187,11 @@ class ShelterService:
             shelter.address = pet_name
             self.db.commit()
             self.db.refresh(shelter)
+
+    def check_status(self, id_pet):
+        pet = self.db.query(Pet).filter_by(id_pet=id_pet).first()
+        if pet.home_status == 'Усыновлён':
+            return 'Этот питомец уже усыновлён'
 
     def load_orders_for_user(self, id_user):
         query_id = self.db.query(Order.id_order).filter_by(client_name=id_user).all()

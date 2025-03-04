@@ -1,3 +1,4 @@
+from datetime import date
 from database import SessionLocal, init_db
 from services.service import PetService, ParentService, ShelterService, WorkerService, EventService
 
@@ -31,9 +32,9 @@ def main():
         payment_service.add_worker(name='dgeeg', surname='fefeew', phone_number=32424234, login='2234', password='234234')
 
         event_service = EventService(db)
-        event_service.add_event(event_name='Ягоды ляляля', event_date=120660)
-        event_service.add_event(event_name='Еживика ляляля', event_date=145830)
-        event_service.add_event(event_name='Пёрд ляляля', event_date=120845)
+        event_service.add_event(event_name='Ягоды ляляля', event_date=date(2023, 6, 23))
+        event_service.add_event(event_name='Еживика ляляля', event_date=date(2023, 7, 14))
+        event_service.add_event(event_name='Пёрд ляляля', event_date=date(2023, 8, 9))
 
     finally:
         db.close()

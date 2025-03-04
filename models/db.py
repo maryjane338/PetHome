@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Enum
+from sqlalchemy import Column, Integer, String, ForeignKey, Enum, Date
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -56,4 +56,4 @@ class Event(Base):
 
     id_event = Column(Integer, primary_key=True, index=True, autoincrement=True)
     event_name = Column(String, nullable=False)
-    event_date = Column(Integer, nullable=False)
+    event_date = Column(Date, nullable=False)

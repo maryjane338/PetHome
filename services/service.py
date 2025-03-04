@@ -183,15 +183,54 @@ class ShelterService:
     def update_shelter(self, id_shelter, parent_name, pet_name):
         shelter = self.db.query(Shelter).filter_by(id_shelter=id_shelter).first()
         if shelter:
-            shelter.book_name = parent_name
-            shelter.address = pet_name
+            shelter.parent_name = parent_name
+            shelter.pet_name = pet_name
             self.db.commit()
             self.db.refresh(shelter)
 
+    def check_parent_and_pet(self, parent_name, pet_name):
+        pet_query = self.db.query(Pet).filter_by(id_pet=pet_name).all()
+
+        pets = []
+        for b in pet_query:
+            pet = []
+            pet.append(str(b.id_pet))
+            pet.append(b.pet_name)
+            pet.append(b.animal_species)
+            pet.append(str(b.age))
+            pet.append(str(b.weight))
+            pet.append(b.home_status)
+            pets.append(pet)
+
+        parent_query = self.db.query(Parent).filter_by(id_parent=parent_name).all()
+
+        parents = []
+        for b in parent_query:
+            parent = []
+            parent.append(str(b.id_parent))
+            parent.append(b.name)
+            parent.append(b.surname)
+            parent.append(str(b.phone_number))
+            parent.append(str(b.address))
+            parent.append(str(b.passport_id))
+            parents.append(parent)
+
+        if len(pets) == 0 or len(parents) == 0:
+            return 1
+        elif len(pets) != 0:
+            status = self.check_status(pet_name)
+            if status == 1:
+                return 1
+        else:
+            return 0
+
     def check_status(self, id_pet):
         pet = self.db.query(Pet).filter_by(id_pet=id_pet).first()
+        print(pet.home_status)
         if pet.home_status == 'Усыновлён':
-            return 'Этот питомец уже усыновлён'
+            return 1
+        else:
+            return 0
 
     def load_orders_for_user(self, id_user):
         query_id = self.db.query(Order.id_order).filter_by(client_name=id_user).all()
@@ -269,7 +308,7 @@ class EventService:
     def __init__(self, db: Session):
         self.db = db
 
-    def add_event(self, event_name: str, event_date: int):
+    def add_event(self, event_name: str, event_date: str):
         new_event = Event(
             event_name=event_name,
             event_date=event_date,
@@ -278,6 +317,19 @@ class EventService:
         self.db.commit()
         self.db.refresh(new_event)
         return new_event
+
+    def update_event(self, id_event, event_name, event_date):
+        event = self.db.query(Event).filter_by(id_event=id_event).first()
+        if event:
+            event.event_name = event_name
+            event.event_date = event_date
+            self.db.commit()
+            self.db.refresh(event)
+
+    def delete_event(self, id_event):
+        event = self.db.query(Event).filter_by(id_event=id_event).first()
+        self.db.delete(event)
+        self.db.commit()
 
     def get_all_events(self):
         query = self.db.query(Event).all()

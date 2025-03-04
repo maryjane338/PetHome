@@ -90,3 +90,12 @@ class SheltersWin(QWidget):
             QMessageBox.information(self, 'Информация',
                                     'Для удаления пользователя, нажмите на его номер в таблице',
                                     QMessageBox.StandardButton.Ok)
+
+    def closeEvent(self, event):
+        try:
+            if self.shelter_add_or_update_win.isVisible():
+                self.shelter_add_or_update_win.close()
+        except AttributeError:
+            pass
+        finally:
+            event.accept()

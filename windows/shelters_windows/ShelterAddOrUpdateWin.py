@@ -20,10 +20,10 @@ class ShelterAddOrUpdateWin(QWidget):
         self.setFixedSize(self.width(), self.height())
         self.setWindowIcon(QIcon('logo_pictures/window_icon.png'))
 
-        id_pet_label = QLabel('Введите ID родителя:')
-        self.id_pet_input = QLineEdit()
-        id_parent_label = QLabel('Введите ID питомца:')
+        id_parent_label = QLabel('Введите ID родителя:')
         self.id_parent_input = QLineEdit()
+        id_pet_label = QLabel('Введите ID питомца:')
+        self.id_pet_input = QLineEdit()
         self.save_btn = QPushButton('Сохранить')
         self.save_btn.clicked.connect(self.save_shelter)
         self.id = QLineEdit()
@@ -31,13 +31,13 @@ class ShelterAddOrUpdateWin(QWidget):
         if self.shelter:
             self.id_parent_input.setText(self.shelter['parent_name'])
             self.id_pet_input.setText(self.shelter['pet_name'])
-            self.id.setText(self.shelter['id_pet'])
+            self.id.setText(self.shelter['id_shelter'])
 
         main_l = QVBoxLayout()
-        main_l.addWidget(id_pet_label)
-        main_l.addWidget(self.id_pet_input)
         main_l.addWidget(id_parent_label)
         main_l.addWidget(self.id_parent_input)
+        main_l.addWidget(id_pet_label)
+        main_l.addWidget(self.id_pet_input)
         main_l.addStretch()
         main_l.addWidget(self.save_btn)
         self.setLayout(main_l)
@@ -54,7 +54,13 @@ class ShelterAddOrUpdateWin(QWidget):
                 QMessageBox.information(self, 'Информация',
                                         'Вы не заполнили все поля или заполнили их некорректно.')
             else:
-                if self.id.text():
+                check_guys = shelter_service.check_parent_and_pet(
+                    parent_name=self.id_parent_input.text(),
+                    pet_name=self.id_pet_input.text(),
+                )
+                if check_guys == 1:
+                    QMessageBox.information(self, 'Информация', 'Такого питомца или родителя не существует')
+                elif self.id.text():
                     shelter_service.update_shelter(
                         id_shelter=self.id.text(),
                         parent_name=self.id_parent_input.text(),
@@ -62,7 +68,8 @@ class ShelterAddOrUpdateWin(QWidget):
                     )
                 else:
                     answer = shelter_service.check_status(self.id_pet_input.text())
-                    if answer == 'Этот питомец уже усыновлён':
+                    print(answer)
+                    if answer == 1:
                         QMessageBox.information(self, 'Информация', 'Этот питомец уже усыновлён')
                     else:
                         shelter_service.add_shelter(

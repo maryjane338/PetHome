@@ -11,10 +11,10 @@ class ParentsWin(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('Книги')
-        self.setGeometry(1130, 100, 770, 400)
+        self.setWindowTitle('Родители')
+        self.setGeometry(1250, 35, 650, 400)
         self.setFixedSize(self.width(), self.height())
-        self.setWindowIcon(QIcon('logo_pictures/window_icon.png'))
+        self.setWindowIcon(QIcon('pictures/dog.png'))
 
         self.update_btn = QPushButton('Изменить')
         self.update_btn.clicked.connect(self.show_booksupdate_win)

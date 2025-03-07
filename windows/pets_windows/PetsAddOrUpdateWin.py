@@ -4,9 +4,6 @@ from database import SessionLocal
 from services.service import PetService
 
 
-# from services.book_service import BookService
-
-
 class PetsAddOrUpdateWin(QWidget):
     def __init__(self, pets_win, pet=None):
         super().__init__()
@@ -15,10 +12,10 @@ class PetsAddOrUpdateWin(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('Заказ')
-        self.setGeometry(50, 100, 300, 300)
+        self.setWindowTitle('Животные')
+        self.setGeometry(630, 35, 300, 300)
         self.setFixedSize(self.width(), self.height())
-        self.setWindowIcon(QIcon('logo_pictures/window_icon.png'))
+        self.setWindowIcon(QIcon('pictures/dog.png'))
 
         name_label = QLabel('Введите имя питомца:')
         self.name_input = QLineEdit()
@@ -80,11 +77,11 @@ class PetsAddOrUpdateWin(QWidget):
                         age=self.age_input.text(),
                         weight=self.weight_input.text(),
                     )
-                QMessageBox.information(self, 'Информация', 'Книга успешно сохранена!')
+                QMessageBox.information(self, 'Информация', 'Запись успешно сохранена!')
                 self.close()
                 self.pets_win.model.clear()
-                self.pets_win.model.setHorizontalHeaderLabels(['id_order', 'user_name', 'Книга', 'Адрес доставки',
-                                                               'Способ оплаты', 'Дата доставки'])
+                self.pets_win.model.setHorizontalHeaderLabels(['id_pet', 'pet_name', 'animal_species', 'age', 'weight',
+                                                               'home_status'])
                 self.pets_win.load_orders()
 
         except ValueError:

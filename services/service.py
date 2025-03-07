@@ -299,9 +299,9 @@ class WorkerService:
         self.db.refresh(new_worker)
         return new_worker
 
-    def get_all_payments(self):
-        books = self.db.query(Book).all()
-        return books
+    def select_worker_for_enter(self, worker_login):
+        worker_password = self.db.query(Worker.password).filter_by(login=worker_login).scalar()
+        return worker_password
 
 
 class EventService:

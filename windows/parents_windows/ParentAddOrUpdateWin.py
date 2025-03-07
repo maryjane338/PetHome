@@ -15,10 +15,10 @@ class ParentAddOrUpdateWin(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('Заказ')
-        self.setGeometry(1550, 100, 300, 300)
+        self.setWindowTitle('Родители')
+        self.setGeometry(950, 35, 300, 300)
         self.setFixedSize(self.width(), self.height())
-        self.setWindowIcon(QIcon('logo_pictures/window_icon.png'))
+        self.setWindowIcon(QIcon('pictures/dog.png'))
 
         name_label = QLabel('Введите имя:')
         self.name_input = QLineEdit()
@@ -86,7 +86,7 @@ class ParentAddOrUpdateWin(QWidget):
                         address=self.address_input.text(),
                         passport_id=int(self.passport_input.text())
                     )
-                QMessageBox.information(self, 'Информация', 'Книга успешно сохранена!')
+                QMessageBox.information(self, 'Информация', 'Запись успешно сохранена!')
                 self.close()
                 self.bookswin.model.clear()
                 self.bookswin.model.setHorizontalHeaderLabels(['id', 'Автор', 'Название', 'Картинка', 'Цена'])

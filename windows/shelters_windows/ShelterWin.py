@@ -12,9 +12,9 @@ class SheltersWin(QWidget):
 
     def initUI(self):
         self.setWindowTitle('Дом для животных')
-        self.setGeometry(1150, 600, 400, 400)
+        self.setGeometry(1570, 600, 340, 400)
         self.setFixedSize(self.width(), self.height())
-        self.setWindowIcon(QIcon('logo_pictures/window_icon.png'))
+        self.setWindowIcon(QIcon('pictures/dog.png'))
 
         self.update_btn = QPushButton('Изменить')
         self.update_btn.clicked.connect(self.show_update_win)
@@ -76,7 +76,7 @@ class SheltersWin(QWidget):
             dialog = QMessageBox()
             dialog.setGeometry(1200, 775, 400, 400)
             dialog.setWindowTitle("Подтверждение")
-            dialog.setText(f"Вы уверены, что хотите удалить пользователя?")
+            dialog.setText(f"Вы уверены, что хотите удалить запись?")
             dialog.setIcon(QMessageBox.Icon.Warning)
             dialog.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
             user_response = dialog.exec()
@@ -88,7 +88,7 @@ class SheltersWin(QWidget):
                 self.load_users()
         else:
             QMessageBox.information(self, 'Информация',
-                                    'Для удаления пользователя, нажмите на его номер в таблице',
+                                    'Для удаления записи, нажмите на её номер в таблице',
                                     QMessageBox.StandardButton.Ok)
 
     def closeEvent(self, event):

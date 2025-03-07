@@ -12,9 +12,9 @@ class EventsWin(QWidget):
 
     def initUI(self):
         self.setWindowTitle('Мероприятия')
-        self.setGeometry(50, 600, 350, 400)
+        self.setGeometry(0, 600, 350, 400)
         self.setFixedSize(self.width(), self.height())
-        self.setWindowIcon(QIcon('logo_pictures/window_icon.png'))
+        self.setWindowIcon(QIcon('pictures/dog.png'))
 
         self.add_btn = QPushButton('Добавить')
         self.add_btn.clicked.connect(self.show_event_add_win)

@@ -13,14 +13,14 @@ class EventAddOrUpdateWin(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('Заказ')
-        self.setGeometry(400, 600, 300, 200)
+        self.setWindowTitle('Мероприятия')
+        self.setGeometry(350, 600, 300, 200)
         self.setFixedSize(self.width(), self.height())
-        self.setWindowIcon(QIcon('logo_pictures/window_icon.png'))
+        self.setWindowIcon(QIcon('pictures/dog.png'))
 
         name_label = QLabel('Введите название события:')
         self.name_input = QLineEdit()
-        date_label = QLabel('Введите дату мероприятия:')
+        date_label = QLabel('Введите дату мероприятия (гг.мм.дд.):')
         self.date_input = QLineEdit()
         self.save_btn = QPushButton('Сохранить')
         self.id = QLineEdit()
@@ -46,33 +46,40 @@ class EventAddOrUpdateWin(QWidget):
 
         try:
             date_text = self.date_input.text()
-            date_list = list(date_text.split('-'))
-            print(date_list)
-            int(date_list[0])
-            int(date_list[1])
-            int(date_list[2])
-
-            if self.name_input.text() == '' or self.date_input.text() == '' or len(date_list[0]) != 4\
-                    or len(date_list[1]) != 2 or len(date_list[2]) != 2:
+            date_text_check = list(date_text)
+            if len(date_text_check) != 8:
+                QMessageBox.information(self, 'Информация',
+                                        'Вы не заполнили все поля или заполнили их некорректно.')
+            elif date_text_check[4] != '-' and date_text_check[7] != '-':
                 QMessageBox.information(self, 'Информация',
                                         'Вы не заполнили все поля или заполнили их некорректно.')
             else:
-                if self.id.text():
-                    event_service.update_event(
-                        id_event=self.id.text(),
-                        event_name=self.name_input.text(),
-                        event_date=date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
-                    )
+                date_list = list(date_text.split('-'))
+                int(date_list[0])
+                int(date_list[1])
+                int(date_list[2])
+
+                if self.name_input.text() == '' or self.date_input.text() == '' or len(date_list[0]) != 4\
+                        or len(date_list[1]) != 2 or len(date_list[2]) != 2 and len(date_text_check) != 8:
+                    QMessageBox.information(self, 'Информация',
+                                            'Вы не заполнили все поля или заполнили их некорректно.')
                 else:
-                    event_service.add_event(
-                        event_name=self.name_input.text(),
-                        event_date=date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
-                    )
-                QMessageBox.information(self, 'Информация', 'Книга успешно сохранена!')
-                self.close()
-                self.events_win.model.clear()
-                self.events_win.model.setHorizontalHeaderLabels(['id_event', 'event_name', 'event_date'])
-                self.events_win.load_users()
+                    if self.id.text():
+                        event_service.update_event(
+                            id_event=self.id.text(),
+                            event_name=self.name_input.text(),
+                            event_date=date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
+                        )
+                    else:
+                        event_service.add_event(
+                            event_name=self.name_input.text(),
+                            event_date=date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
+                        )
+                    QMessageBox.information(self, 'Информация', 'Запись успешно сохранена!')
+                    self.close()
+                    self.events_win.model.clear()
+                    self.events_win.model.setHorizontalHeaderLabels(['id_event', 'event_name', 'event_date'])
+                    self.events_win.load_users()
 
         except ValueError:
             QMessageBox.information(self, 'Информация',

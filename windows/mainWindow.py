@@ -16,7 +16,7 @@ class MainWin(QWidget):
         self.setWindowTitle('Окно Сотрудника')
         self.resize(300, 200)
         self.setFixedSize(self.width(), self.height())
-        self.setWindowIcon(QIcon('logo_pictures/window_icon.png'))
+        self.setWindowIcon(QIcon('pictures/dog.png'))
 
         self.all_pets_btn = QPushButton('Животные в приюте')
         self.all_pets_btn.clicked.connect(self.show_all_orders_win)

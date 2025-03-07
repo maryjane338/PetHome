@@ -1,10 +1,7 @@
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import *
 from database import SessionLocal
-from services.service import PetService, ShelterService
-
-
-# from services.book_service import BookService
+from services.service import ShelterService
 
 
 class ShelterAddOrUpdateWin(QWidget):
@@ -15,10 +12,10 @@ class ShelterAddOrUpdateWin(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('Заказ')
-        self.setGeometry(1550, 600, 150, 150)
+        self.setWindowTitle('Дом для животных')
+        self.setGeometry(1420, 600, 150, 150)
         self.setFixedSize(self.width(), self.height())
-        self.setWindowIcon(QIcon('logo_pictures/window_icon.png'))
+        self.setWindowIcon(QIcon('pictures/dog.png'))
 
         id_parent_label = QLabel('Введите ID родителя:')
         self.id_parent_input = QLineEdit()
@@ -76,7 +73,7 @@ class ShelterAddOrUpdateWin(QWidget):
                             parent_name=int(self.id_parent_input.text()),
                             pet_name=int(self.id_pet_input.text()),
                         )
-                QMessageBox.information(self, 'Информация', 'Книга успешно сохранена!')
+                QMessageBox.information(self, 'Информация', 'Запись сохранена!')
                 self.close()
                 self.shelter_win.model.clear()
                 self.shelter_win.model.setHorizontalHeaderLabels(['id_shelter', 'parent_name', 'pet_name'])

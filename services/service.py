@@ -35,28 +35,6 @@ class PetService:
         self.db.delete(pet)
         self.db.commit()
 
-    def select_book_query(self, book_name):
-        query_book = self.db.query(Book.id_book).filter_by(book_name=book_name).scalar()
-        return query_book
-
-    def select_book_name(self, book_name):
-        query_book = self.db.query(Book.id_book).filter_by(book_name=book_name).scalar()
-        return query_book
-
-    def load_book(self, id_book):
-        query_name = self.db.query(Book.book_name).filter_by(id_book=id_book).scalar()
-        query_author = self.db.query(Book.author).filter_by(id_book=id_book).scalar()
-        query_price = self.db.query(Book.price).filter_by(id_book=id_book).scalar()
-        query_picture = self.db.query(Book.book_picture).filter_by(id_book=id_book).scalar()
-        query = [query_name, query_author, query_price, query_picture]
-        return query
-
-    def selected_book(self, id_book):
-        query_book = self.db.query(Book.book_name, Book.author, Book.book_picture, Book.price).\
-            filter_by(id_book=id_book).scalar()
-        query = [query_book]
-        return query
-
     def get_all_pet(self):
         query = self.db.query(Pet).all()
 
@@ -107,30 +85,6 @@ class ParentService:
         parent = self.db.query(Parent).filter_by(id_parent=id_parent).first()
         self.db.delete(parent)
         self.db.commit()
-
-    def select_user_for_enter(self, user_name):
-        user_password = self.db.query(Client.password).filter_by(client_name=user_name).scalar()
-        return user_password
-
-    def select_user(self, user_name):
-        user_id = self.db.query(Client.id_client).filter_by(client_name=user_name).scalar()
-        return user_id
-
-    def get_all_pet(self):
-        query = self.db.query(Parent).all()
-
-        parents = []
-        for c in query:
-            parent = []
-            parent.append(c.id_parent)
-            parent.append(c.name)
-            parent.append(c.surname)
-            parent.append(c.phone_number)
-            parent.append(c.address)
-            parent.append(c.passport_id)
-            parent.append(c.parent_status)
-            parents.append(parent)
-        return parents
 
     def get_all_parents(self):
         query = self.db.query(Parent).all()
@@ -231,43 +185,6 @@ class ShelterService:
             return 1
         else:
             return 0
-
-    def load_orders_for_user(self, id_user):
-        query_id = self.db.query(Order.id_order).filter_by(client_name=id_user).all()
-        ids = list(map(str, [id_order[0] for id_order in query_id]))
-
-        query_book_id = self.db.query(Order.book_name).filter_by(client_name=id_user).all()
-        books_ids = [book_id[0] for book_id in query_book_id]
-        final_book_name = [
-            self.db.query(Book.book_name).filter_by(id_book=book_id).scalar()
-            for book_id in books_ids
-        ]
-
-        query_address = self.db.query(Order.address).filter_by(client_name=id_user).all()
-        addresses = [address[0] for address in query_address]
-
-        query_payment_id = self.db.query(Order.payment).filter_by(client_name=id_user).all()
-        payment_ids = [payment_id[0] for payment_id in query_payment_id]
-        final_payment_status = [
-            self.db.query(Payment.payment_status).filter_by(id_payment=payment_id).scalar()
-            for payment_id in payment_ids
-        ]
-
-        query_date = self.db.query(Order.delivery_date).filter_by(client_name=id_user).all()
-        dates = [date[0] for date in query_date]
-
-        loaded_orders = []
-
-        for i in range(len(ids)):
-            loaded_order = []
-            loaded_order.append(ids[i - 1])
-            loaded_order.append(final_book_name[i - 1])
-            loaded_order.append(addresses[i - 1])
-            loaded_order.append(final_payment_status[i - 1])
-            loaded_order.append(dates[i - 1])
-            loaded_orders.append(loaded_order)
-
-        return loaded_orders
 
     def get_all_shelters(self):
         query = self.db.query(Shelter).all()
